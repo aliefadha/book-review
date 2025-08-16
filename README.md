@@ -22,9 +22,15 @@ This platform enables users to:
 - [x] **Environment Configuration**: `.env` setup with Mastra API placeholders
 - [x] **Basic Modules**: Books, Reviews, Mastra, and Prisma modules structure
 
+### Completed Session 2: Basic API Endpoints
+
+- [x] Implement GET `/books` endpoint
+- [x] Implement GET `/books/:id` endpoint
+- [x] Implement GET `/search` endpoint
+- [x] Add input validation and error handling
+
 ### 🚧 In Development
 
-- [ ] **API Endpoints**: REST API for books, reviews, and search
 - [ ] **Mastra AI Integration**: Review enhancement with AI
 - [ ] **Frontend**: React application with modern UI
 - [ ] **Testing**: Comprehensive unit and E2E tests
@@ -199,13 +205,6 @@ model Review {
 ```
 
 ## 🗺 Development Roadmap
-
-### Session 2: Basic API Endpoints (Planned)
-
-- [ ] Implement GET `/books` endpoint
-- [ ] Implement GET `/books/:id` endpoint
-- [ ] Implement GET `/search` endpoint
-- [ ] Add input validation and error handling
 
 ### Session 3: AI Integration (Planned)
 

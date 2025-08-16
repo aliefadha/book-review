@@ -11,16 +11,18 @@ datasource db {
 }
 
 model Book {
-  id            String @id @default(uuid())
+  id            String   @id @default(uuid())
   title         String
   author        String
   description   String
   coverImageUrl String
+  reviews       Review[] @relation("BookReviews")
 }
 
 model Review {
   id             String @id @default(uuid())
   bookId         String
+  book           Book   @relation("BookReviews", fields: [bookId], references: [id])
   reviewerName   String
   text           String
   rating         Int
