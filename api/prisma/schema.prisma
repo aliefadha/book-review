@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Book {
+  id            String @id @default(uuid())
+  title         String
+  author        String
+  description   String
+  coverImageUrl String
+}
+
+model Review {
+  id             String @id @default(uuid())
+  bookId         String
+  reviewerName   String
+  text           String
+  rating         Int
+  summary        String
+  sentimentScore Float
+  tags           Json   @default("[]")
+}
