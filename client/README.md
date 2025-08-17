@@ -1,69 +1,125 @@
-# React + TypeScript + Vite
+# Book Review Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based frontend application for the Book Review system built with Vite, TypeScript, and Material-UI.
 
-Currently, two official plugins are available:
+## Environment Configuration
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Setup
 
-## Expanding the ESLint configuration
+1. Copy the environment template:
+   ```bash
+   cp .env.example .env
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2. Update the `.env` file with your configuration:
+   ```env
+   # API Configuration
+   VITE_API_BASE_URL=http://localhost:3000
+   
+   # Development Configuration
+   VITE_DEV_MODE=true
+   ```
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Environment Variables
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+| Variable | Description | Default | Required |
+|----------|-------------|---------|----------|
+| `VITE_API_BASE_URL` | Backend API base URL | `http://localhost:3000` | Yes |
+| `VITE_DEV_MODE` | Enable development features | `true` | No |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Configuration Files
+
+- `.env` - Local environment variables (not committed to git)
+- `.env.example` - Template file with example values
+- `src/config/env.ts` - Environment configuration service
+
+## Development
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+- Backend API running on configured port
+
+### Getting Started
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Set up environment variables (see Environment Configuration above)
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Open [http://localhost:5173](http://localhost:5173) in your browser
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+
+## Features
+
+- 📚 Browse and search books
+- 🔍 Advanced search with filters
+- ⭐ View and manage book reviews
+- 📱 Responsive design
+- 🎨 Material-UI components
+- ⚡ Fast development with Vite HMR
+
+## Architecture
+
+### Project Structure
+
+```
+src/
+├── components/     # Reusable UI components
+├── pages/         # Page components
+├── services/      # API services
+├── types/         # TypeScript type definitions
+├── config/        # Configuration files
+└── routes/        # Application routing
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Key Technologies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **React 18** - UI framework
+- **TypeScript** - Type safety
+- **Vite** - Build tool and dev server
+- **Material-UI** - Component library
+- **React Router** - Client-side routing
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## API Integration
+
+The application communicates with the backend API through service modules:
+
+- `bookService.ts` - Book-related operations
+- `searchService.ts` - Search functionality
+
+All API endpoints are configured through environment variables for easy deployment across different environments.
+
+## Deployment
+
+### Production Build
+
+1. Set production environment variables
+2. Build the application:
+   ```bash
+   npm run build
+   ```
+3. Deploy the `dist/` folder to your hosting service
+
+### Environment-Specific Deployment
+
+For different environments (staging, production), create corresponding `.env` files:
+
+- `.env.staging`
+- `.env.production`
+
+Update the `VITE_API_BASE_URL` to point to the appropriate backend API.

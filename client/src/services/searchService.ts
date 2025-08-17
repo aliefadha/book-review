@@ -1,4 +1,5 @@
 import type { Books } from '../types/book';
+import { apiEndpoints } from '../config/env';
 
 export interface Review {
   id: string;
@@ -25,7 +26,7 @@ export interface SearchResult {
 
 export const searchAll = async (query: string): Promise<SearchResult> => {
   try {
-    const response = await fetch(`http://localhost:3000/search?query=${encodeURIComponent(query)}`);
+    const response = await fetch(`${apiEndpoints.search}?query=${encodeURIComponent(query)}`);
     if (!response.ok) {
       throw new Error('Failed to search');
     }

@@ -1,4 +1,5 @@
 import type { Books, Book } from '../types/book';
+import { apiEndpoints } from '../config/env';
 
 const sampleBooks: Book[] = [
   {
@@ -30,7 +31,7 @@ const sampleBooks: Book[] = [
 
 export const fetchBooks = async (): Promise<Books[]> => {
   try {
-    const response = await fetch('http://localhost:3000/books');
+    const response = await fetch(apiEndpoints.books);
     if (!response.ok) {
       throw new Error('Failed to fetch books');
     }
@@ -43,7 +44,7 @@ export const fetchBooks = async (): Promise<Books[]> => {
 
 export const fetchBookById = async (id: string): Promise<Book | null> => {
   try {
-    const response = await fetch(`http://localhost:3000/books/${id}`);
+    const response = await fetch(`${apiEndpoints.books}/${id}`);
     if (!response.ok) {
       throw new Error('Failed to fetch book');
     }
