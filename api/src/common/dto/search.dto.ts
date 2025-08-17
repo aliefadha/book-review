@@ -10,6 +10,7 @@ export class SearchQueryDto {
 }
 
 export class SearchResultDto {
+  query: string;
   books: BookSearchResult[];
   reviews: ReviewSearchResult[];
   totalResults: number;

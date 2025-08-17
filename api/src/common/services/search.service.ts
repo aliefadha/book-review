@@ -16,6 +16,7 @@ export class SearchService {
     const reviews = await this.searchReviews(searchTerm);
     
     return {
+      query,
       books,
       reviews,
       totalResults: books.length + reviews.length
