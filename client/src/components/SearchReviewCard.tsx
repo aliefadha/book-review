@@ -23,9 +23,9 @@ const SearchReviewCard: React.FC<SearchReviewCardProps> = ({ review }) => {
 
   return (
     <Box sx={{ width: '100%', mb: 2 }}>
-      <Card 
-        sx={{ 
-          mb: 2, 
+      <Card
+        sx={{
+          mb: 2,
           cursor: 'pointer',
           '&:hover': {
             boxShadow: 4,

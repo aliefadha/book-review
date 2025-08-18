@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import {
   Container,
@@ -18,9 +18,12 @@ import { fetchBookById } from '../services/bookService';
 import type { Book } from '../types/book';
 import { useQuery } from '@tanstack/react-query';
 import ReviewCard from '../components/ReviewCard';
+import ReviewModal from '../components/ReviewModal';
 
 const BookDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+
   const { isPending, error, data: book, refetch } = useQuery<Book | null>({
     queryKey: ['bookData', id],
     queryFn: () => fetchBookById(id || ''),
@@ -173,6 +176,7 @@ const BookDetail: React.FC = () => {
             startIcon={<RateReviewIcon />}
             size="large"
             sx={{ flex: 1 }}
+            onClick={() => setIsReviewModalOpen(true)}
           >
             Write a Review
           </Button>
@@ -212,12 +216,25 @@ const BookDetail: React.FC = () => {
               variant="contained"
               startIcon={<RateReviewIcon />}
               size="large"
+              onClick={() => setIsReviewModalOpen(true)}
             >
               Write the First Review
             </Button>
           </Box>
         )}
       </Paper>
+
+      {/* Review Modal */}
+      <ReviewModal
+        open={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+        bookId={id || ''}
+        bookTitle={book?.title || ''}
+        onReviewSubmitted={() => {
+          refetch();
+          setIsReviewModalOpen(false);
+        }}
+      />
     </Container>
   );
 };
