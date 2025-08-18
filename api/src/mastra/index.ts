@@ -17,4 +17,7 @@ The sentimentScore should be a number between 0 and 1 where 0 is very negative a
 
 export const mastra = new Mastra({
     agents: { bookAgent },
+    telemetry: {
+        enabled: false
+    }
 })
