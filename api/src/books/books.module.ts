@@ -7,6 +7,6 @@ import { WinstonLoggerService } from 'src/common/services/winston-logger.service
 @Module({
   imports: [PrismaModule],
   controllers: [BooksController],
-  providers: [BooksService, WinstonLoggerService]
+  providers: [BooksService, WinstonLoggerService],
 })
-export class BooksModule { }
+export class BooksModule {}

@@ -15,21 +15,25 @@ interface BookCardProps {
 
 const BookCard: React.FC<BookCardProps> = ({ book, onBookClick }) => {
   return (
-    <Box sx={{ width: { xs: '100%', sm: '50%', md: '33.333%' }, p: 1 }}>
-      <Card
-        sx={{
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          cursor: 'pointer',
-          transition: 'transform 0.2s, box-shadow 0.2s',
-          '&:hover': {
-            transform: 'translateY(-4px)',
-            boxShadow: 4,
-          },
-        }}
-        onClick={() => onBookClick(book.id)}
-      >
+    <Card
+      sx={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        cursor: 'pointer',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        borderRadius: 2,
+        overflow: 'hidden',
+        '&:hover': {
+          transform: 'translateY(-8px)',
+          boxShadow: '0 12px 24px rgba(0,0,0,0.15)',
+        },
+        '&:active': {
+          transform: 'translateY(-2px)',
+        },
+      }}
+      onClick={() => onBookClick(book.id)}
+    >
         <CardMedia
           component="img"
           height="200"
@@ -51,8 +55,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onBookClick }) => {
           </Typography>
         </CardContent>
       </Card>
-    </Box>
-  );
-};
+    );
+  };
 
 export default BookCard;

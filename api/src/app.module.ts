@@ -23,4 +23,4 @@ import { WinstonLoggerService } from './common/services/winston-logger.service';
   controllers: [AppController],
   providers: [AppService, WinstonLoggerService],
 })
-export class AppModule { }
+export class AppModule {}

@@ -98,29 +98,55 @@ const Home: React.FC = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Box sx={{ mb: 4, textAlign: 'center' }}>
-        <Typography variant="h2" component="h1" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-          <BookIcon sx={{ fontSize: 48, mr: 2, verticalAlign: 'middle' }} />
+    <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 }, px: { xs: 2, md: 3 } }}>
+      <Box sx={{ mb: { xs: 3, md: 4 }, textAlign: 'center' }}>
+        <Typography 
+          variant="h2" 
+          component="h1" 
+          gutterBottom 
+          sx={{ 
+            fontWeight: 'bold', 
+            color: 'primary.main',
+            fontSize: { xs: '2.5rem', md: '3.75rem' },
+            mb: 2
+          }}
+        >
+          <BookIcon sx={{ fontSize: { xs: 36, md: 48 }, mr: { xs: 1, md: 2 }, verticalAlign: 'middle' }} />
           Book Review Library
         </Typography>
-        <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
+        <Typography 
+          variant="h6" 
+          color="text.secondary" 
+          sx={{ 
+            maxWidth: 600, 
+            mx: 'auto',
+            fontSize: { xs: '1rem', md: '1.25rem' },
+            px: { xs: 2, md: 0 }
+          }}
+        >
           Discover amazing books and share your thoughts with our community of readers
         </Typography>
       </Box>
 
-      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: 3 }}>
-          {displayedBooks.map((book: Books) => (
-          <Card key={book.id}
+      <Box sx={{ 
+        display: 'grid', 
+        gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, 
+        gap: { xs: 2, md: 3 } 
+      }}>
+        {displayedBooks.map((book: Books) => (
+          <Card 
+            key={book.id}
             sx={{
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
-              transition: 'transform 0.2s, box-shadow 0.2s',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              borderRadius: 2,
+              overflow: 'hidden',
               '&:hover': {
-                transform: 'translateY(-4px)',
-                boxShadow: 4,
-              }
+                transform: 'translateY(-8px)',
+                boxShadow: '0 12px 24px rgba(0,0,0,0.15)',
+              },
             }}
           >
             <CardMedia
@@ -130,14 +156,15 @@ const Home: React.FC = () => {
               alt={`${book.title} cover`}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg==';
+                target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ci8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg==';
               }}
               sx={{
                 objectFit: 'cover',
-                backgroundColor: 'grey.100'
+                backgroundColor: 'grey.100',
+                transition: 'transform 0.3s ease',
               }}
             />
-            <CardContent sx={{ flexGrow: 1 }}>
+            <CardContent sx={{ flexGrow: 1, p: { xs: 2, md: 3 } }}>
               <Typography variant="h5" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
                 {book.title}
               </Typography>
@@ -148,14 +175,22 @@ const Home: React.FC = () => {
                 {book.description}
               </Typography>
             </CardContent>
-            <CardActions sx={{ p: 2, pt: 0 }}>
+            <CardActions sx={{ p: { xs: 2, md: 3 }, pt: 0 }}>
               <Button
                 component={RouterLink}
                 to={`/book/${book.id}`}
                 variant="contained"
                 startIcon={<ViewIcon />}
                 fullWidth
-                sx={{ borderRadius: 2 }}
+                sx={{
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  '&:hover': {
+                    transform: 'translateY(-1px)',
+                    boxShadow: 2,
+                  },
+                }}
               >
                 View Details
               </Button>

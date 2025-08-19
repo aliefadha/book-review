@@ -5,7 +5,6 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 
 describe('SearchController', () => {
   let controller: SearchController;
-  let searchService: SearchService;
 
   const mockSearchService = {
     search: jest.fn(),
@@ -23,7 +22,6 @@ describe('SearchController', () => {
     }).compile();
 
     controller = module.get<SearchController>(SearchController);
-    searchService = module.get<SearchService>(SearchService);
   });
 
   afterEach(() => {
@@ -71,17 +69,23 @@ describe('SearchController', () => {
     });
 
     it('should throw BadRequest exception for empty query', async () => {
-      await expect(controller.search({ query: '' }))
-        .rejects
-        .toThrow(new HttpException('Search query cannot be empty', HttpStatus.BAD_REQUEST));
+      await expect(controller.search({ query: '' })).rejects.toThrow(
+        new HttpException(
+          'Search query cannot be empty',
+          HttpStatus.BAD_REQUEST,
+        ),
+      );
 
       expect(mockSearchService.search).not.toHaveBeenCalled();
     });
 
     it('should throw BadRequest exception for whitespace-only query', async () => {
-      await expect(controller.search({ query: '   ' }))
-        .rejects
-        .toThrow(new HttpException('Search query cannot be empty', HttpStatus.BAD_REQUEST));
+      await expect(controller.search({ query: '   ' })).rejects.toThrow(
+        new HttpException(
+          'Search query cannot be empty',
+          HttpStatus.BAD_REQUEST,
+        ),
+      );
 
       expect(mockSearchService.search).not.toHaveBeenCalled();
     });
@@ -89,20 +93,26 @@ describe('SearchController', () => {
     it('should handle search service errors gracefully', async () => {
       mockSearchService.search.mockRejectedValue(new Error('Database error'));
 
-      await expect(controller.search({ query: 'test' }))
-        .rejects
-        .toThrow(new HttpException('An error occurred while searching', HttpStatus.INTERNAL_SERVER_ERROR));
+      await expect(controller.search({ query: 'test' })).rejects.toThrow(
+        new HttpException(
+          'An error occurred while searching',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        ),
+      );
 
       expect(mockSearchService.search).toHaveBeenCalledWith('test');
     });
 
     it('should pass through HttpExceptions from search service', async () => {
-      const httpError = new HttpException('Custom error', HttpStatus.BAD_REQUEST);
+      const httpError = new HttpException(
+        'Custom error',
+        HttpStatus.BAD_REQUEST,
+      );
       mockSearchService.search.mockRejectedValue(httpError);
 
-      await expect(controller.search({ query: 'test' }))
-        .rejects
-        .toThrow(httpError);
+      await expect(controller.search({ query: 'test' })).rejects.toThrow(
+        httpError,
+      );
 
       expect(mockSearchService.search).toHaveBeenCalledWith('test');
     });

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/unbound-method */
+
 import { Test, TestingModule } from '@nestjs/testing';
 import { BooksService } from './books.service';
 import { NotFoundException } from '@nestjs/common';
@@ -13,8 +16,6 @@ jest.mock('../mastra', () => ({
 
 describe('BooksService', () => {
   let service: BooksService;
-  let prismaService: PrismaService;
-  let winstonLogger: WinstonLoggerService;
 
   const mockPrismaService = {
     book: {
@@ -54,8 +55,6 @@ describe('BooksService', () => {
     }).compile();
 
     service = module.get<BooksService>(BooksService);
-    prismaService = module.get<PrismaService>(PrismaService);
-    winstonLogger = module.get<WinstonLoggerService>(WinstonLoggerService);
   });
 
   afterEach(() => {
@@ -83,9 +82,7 @@ describe('BooksService', () => {
       const mockBook = {
         id: '1',
         title: 'Book 1',
-        reviews: [
-          { id: '1', text: 'Great book!' },
-        ],
+        reviews: [{ id: '1', text: 'Great book!' }],
       };
       mockPrismaService.book.findUnique.mockResolvedValue(mockBook);
 
@@ -146,21 +143,29 @@ describe('BooksService', () => {
     it('should throw NotFoundException when book not found for review', async () => {
       mockPrismaService.book.findUnique.mockResolvedValue(null);
 
-      await expect(service.createReview('999', mockCreateReviewDto))
-        .rejects.toThrow(NotFoundException);
+      await expect(
+        service.createReview('999', mockCreateReviewDto),
+      ).rejects.toThrow(NotFoundException);
     });
 
     it('should use fallback values when AI processing fails all retries', async () => {
       const mockBook = { id: '1', title: 'Book 1' };
       mockPrismaService.book.findUnique.mockResolvedValue(mockBook);
-      (bookAgent.generate as jest.Mock).mockRejectedValue(new Error('AI Error'));
+      (bookAgent.generate as jest.Mock).mockRejectedValue(
+        new Error('AI Error'),
+      );
 
-      await expect(service.createReview('1', mockCreateReviewDto))
-        .rejects.toThrow('AI service is currently unavailable. Please try again later.');
+      await expect(
+        service.createReview('1', mockCreateReviewDto),
+      ).rejects.toThrow(
+        'AI service is currently unavailable. Please try again later.',
+      );
 
-      expect(bookAgent.generate).toHaveBeenCalledTimes(3);
-      expect(mockWinstonLogger.error).toHaveBeenCalledWith('All AI processing attempts failed. Rejecting review creation.', '');
+      expect((() => bookAgent.generate).mock).toHaveBeenCalledTimes(3);
+      expect(mockWinstonLogger.error).toHaveBeenCalledWith(
+        'All AI processing attempts failed. Rejecting review creation.',
+        '',
+      );
     });
   });
-
 });

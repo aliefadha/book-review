@@ -5,7 +5,6 @@ import { NotFoundException } from '@nestjs/common';
 
 describe('BooksController', () => {
   let controller: BooksController;
-  let booksService: BooksService;
 
   const mockBooksService = {
     findAll: jest.fn(),
@@ -25,7 +24,6 @@ describe('BooksController', () => {
     }).compile();
 
     controller = module.get<BooksController>(BooksController);
-    booksService = module.get<BooksService>(BooksService);
   });
 
   afterEach(() => {
@@ -65,7 +63,9 @@ describe('BooksController', () => {
     it('should throw NotFoundException when book is not found', async () => {
       mockBooksService.findOne.mockRejectedValue(new NotFoundException());
 
-      await expect(controller.findOne({ id: '999' })).rejects.toThrow(NotFoundException);
+      await expect(controller.findOne({ id: '999' })).rejects.toThrow(
+        NotFoundException,
+      );
       expect(mockBooksService.findOne).toHaveBeenCalledWith('999');
     });
   });
@@ -86,18 +86,28 @@ describe('BooksController', () => {
       };
       mockBooksService.createReview.mockResolvedValue(mockReview);
 
-      const result = await controller.createReview({ id: '1' }, mockCreateReviewDto);
+      const result = await controller.createReview(
+        { id: '1' },
+        mockCreateReviewDto,
+      );
 
       expect(result).toBe(mockReview);
-      expect(mockBooksService.createReview).toHaveBeenCalledWith('1', mockCreateReviewDto);
+      expect(mockBooksService.createReview).toHaveBeenCalledWith(
+        '1',
+        mockCreateReviewDto,
+      );
     });
 
     it('should throw NotFoundException when book is not found', async () => {
       mockBooksService.createReview.mockRejectedValue(new NotFoundException());
 
-      await expect(controller.createReview({ id: '999' }, mockCreateReviewDto))
-        .rejects.toThrow(NotFoundException);
-      expect(mockBooksService.createReview).toHaveBeenCalledWith('999', mockCreateReviewDto);
+      await expect(
+        controller.createReview({ id: '999' }, mockCreateReviewDto),
+      ).rejects.toThrow(NotFoundException);
+      expect(mockBooksService.createReview).toHaveBeenCalledWith(
+        '999',
+        mockCreateReviewDto,
+      );
     });
   });
 });

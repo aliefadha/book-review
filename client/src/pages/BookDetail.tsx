@@ -175,7 +175,17 @@ const BookDetail: React.FC = () => {
             variant="contained"
             startIcon={<RateReviewIcon />}
             size="large"
-            sx={{ flex: 1 }}
+            sx={{ 
+              flex: 1,
+              borderRadius: 2,
+              textTransform: 'none',
+              fontWeight: 600,
+              py: 1.5,
+              '&:hover': {
+                transform: 'translateY(-2px)',
+                boxShadow: 3,
+              },
+            }}
             onClick={() => setIsReviewModalOpen(true)}
           >
             Write a Review
@@ -184,7 +194,19 @@ const BookDetail: React.FC = () => {
             variant="outlined"
             startIcon={<FavoriteIcon />}
             size="large"
-            sx={{ flex: 1 }}
+            sx={{ 
+              flex: 1,
+              borderRadius: 2,
+              textTransform: 'none',
+              fontWeight: 600,
+              py: 1.5,
+              '&:hover': {
+                transform: 'translateY(-2px)',
+                backgroundColor: 'primary.main',
+                color: 'white',
+                borderColor: 'primary.main',
+              },
+            }}
           >
             Add to Favorites
           </Button>

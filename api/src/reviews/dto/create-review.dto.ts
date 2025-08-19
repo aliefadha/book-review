@@ -1,4 +1,12 @@
-import { IsString, IsNotEmpty, IsInt, Min, Max, MinLength, MaxLength } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsInt,
+  Min,
+  Max,
+  MinLength,
+  MaxLength,
+} from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class CreateReviewDto {
@@ -6,14 +14,14 @@ export class CreateReviewDto {
   @IsNotEmpty({ message: 'Reviewer name is required' })
   @MinLength(2, { message: 'Reviewer name must be at least 2 characters long' })
   @MaxLength(100, { message: 'Reviewer name must not exceed 100 characters' })
-  @Transform(({ value }) => value?.trim())
+  @Transform(({ value }: { value: string }) => value?.trim())
   reviewerName: string;
 
   @IsString()
   @IsNotEmpty({ message: 'Review text is required' })
   @MinLength(10, { message: 'Review text must be at least 10 characters long' })
   @MaxLength(2000, { message: 'Review text must not exceed 2000 characters' })
-  @Transform(({ value }) => value?.trim())
+  @Transform(({ value }: { value: string }) => value?.trim())
   text: string;
 
   @IsInt({ message: 'Rating must be an integer' })

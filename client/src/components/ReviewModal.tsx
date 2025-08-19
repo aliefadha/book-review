@@ -171,7 +171,11 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
             maxWidth="md"
             fullWidth
             PaperProps={{
-                sx: { borderRadius: 2 }
+                sx: { 
+                    borderRadius: 2,
+                    m: { xs: 2, md: 4 },
+                    maxHeight: { xs: '90vh', md: 'none' }
+                }
             }}
         >
             <DialogTitle sx={{ pb: 1 }}>
@@ -193,72 +197,122 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
             </DialogTitle>
 
             <form onSubmit={handleSubmit}>
-                <DialogContent sx={{ pt: 2 }}>
+                <DialogContent sx={{ pt: 2, px: { xs: 2, md: 3 } }}>
                     {submitSuccess && (
-                        <Alert severity="success" sx={{ mb: 2 }}>
+                        <Alert severity="success" sx={{ mb: { xs: 2, md: 3 }, borderRadius: 2 }}>
                             Review submitted successfully! Thank you for sharing your thoughts.
                         </Alert>
                     )}
 
                     {submitError && (
-                        <Alert severity="error" sx={{ mb: 2 }}>
+                        <Alert severity="error" sx={{ mb: { xs: 2, md: 3 }, borderRadius: 2 }}>
                             {submitError}
                         </Alert>
                     )}
 
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 2.5, md: 3 } }}>
                         <TextField
                             label="Your Name"
                             value={formData.reviewerName}
                             onChange={(e) => handleInputChange('reviewerName', e.target.value)}
                             error={!!errors.reviewerName}
-                            helperText={errors.reviewerName}
+                            helperText={errors.reviewerName || 'How should we credit your review?'}
                             fullWidth
                             disabled={isSubmitting}
                             placeholder="Enter your name"
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    borderRadius: 2,
+                                    '&:hover fieldset': {
+                                        borderColor: 'primary.main',
+                                    },
+                                },
+                            }}
                         />
 
                         <Box>
-                            <Typography component="legend" sx={{ mb: 1, fontWeight: 'medium' }}>
+                            <Typography component="legend" sx={{ mb: { xs: 1, md: 1.5 }, fontWeight: 'medium', fontSize: { xs: '0.95rem', md: '1rem' } }}>
                                 Rating *
                             </Typography>
-                            <Rating
-                                value={formData.rating}
-                                onChange={handleRatingChange}
-                                size="large"
-                                disabled={isSubmitting}
-                                emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                            />
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                                <Rating
+                                    value={formData.rating}
+                                    onChange={handleRatingChange}
+                                    size="large"
+                                    disabled={isSubmitting}
+                                    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                    sx={{
+                                        '& .MuiRating-iconFilled': {
+                                            color: '#ffc107',
+                                        },
+                                        '& .MuiRating-iconHover': {
+                                            color: '#ffb300',
+                                        },
+                                    }}
+                                />
+                                {formData.rating > 0 && (
+                                    <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
+                                        ({formData.rating} star{formData.rating !== 1 ? 's' : ''})
+                                    </Typography>
+                                )}
+                            </Box>
                             {errors.rating && (
                                 <Typography variant="caption" color="error" sx={{ display: 'block', mt: 0.5 }}>
                                     {errors.rating}
+                                </Typography>
+                            )}
+                            {!errors.rating && (
+                                <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
+                                    How would you rate this book overall?
                                 </Typography>
                             )}
                         </Box>
 
                         <Box>
                             <TextField
+                                label="Your Review"
                                 value={formData.text}
                                 onChange={(e) => handleInputChange('text', e.target.value)}
                                 error={!!errors.text}
-                                helperText={errors.text || 'Share your detailed thoughts (10-2000 characters)'}
+                                helperText={errors.text || `Share your detailed thoughts (${formData.text.length}/2000 characters)`}
                                 fullWidth
                                 multiline
                                 rows={6}
                                 disabled={isSubmitting}
                                 placeholder="What did you think about this book? Share your experience, favorite parts, or any insights..."
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        borderRadius: 2,
+                                        '&:hover fieldset': {
+                                            borderColor: 'primary.main',
+                                        },
+                                        '& textarea': {
+                                            fontSize: { xs: '0.95rem', md: '1rem' },
+                                            lineHeight: 1.6,
+                                        },
+                                    },
+                                    '& .MuiInputLabel-root': {
+                                        fontSize: { xs: '0.95rem', md: '1rem' },
+                                    },
+                                }}
                             />
                         </Box>
                     </Box>
                 </DialogContent>
 
-                <DialogActions sx={{ p: 3, pt: 2 }}>
+                <DialogActions sx={{ p: { xs: 2, md: 3 }, pt: 2, gap: { xs: 1, md: 2 }, flexDirection: { xs: 'column', sm: 'row' } }}>
                     <Button
                         onClick={handleClose}
                         disabled={isSubmitting}
                         sx={{
-                            mr: 1,
+                            order: { xs: 2, sm: 1 },
+                            width: { xs: '100%', sm: 'auto' },
+                            minWidth: { sm: 100 },
+                            height: { xs: 44, md: 48 },
                             color: 'text.secondary',
+                            borderRadius: 2,
+                            textTransform: 'none',
+                            fontWeight: 500,
                             '&:hover': {
                                 bgcolor: 'grey.100',
                                 color: 'text.primary'
@@ -284,9 +338,11 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                                 disabled={isSubmitting || submitSuccess}
                                 startIcon={isSubmitting ? <CircularProgress size={20} color="inherit" /> : <AutoAwesomeIcon />}
                                 sx={{ 
-                                    minWidth: 160,
-                                    height: 48,
-                                    fontSize: '1rem',
+                                    order: { xs: 1, sm: 2 },
+                                    width: { xs: '100%', sm: 'auto' },
+                                    minWidth: { xs: 'auto', sm: 160 },
+                                    height: { xs: 44, md: 48 },
+                                    fontSize: { xs: '0.95rem', md: '1rem' },
                                     fontWeight: 600,
                                     borderRadius: 3,
                                     textTransform: 'none',

@@ -1,11 +1,11 @@
-import { IsString, IsNotEmpty, IsOptional, MinLength } from 'class-validator';
+import { IsString, IsNotEmpty, MinLength } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class SearchQueryDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(1, { message: 'Search query must be at least 1 character long' })
-  @Transform(({ value }) => value?.trim())
+  @Transform(({ value }: { value: string }) => value?.trim())
   query: string;
 }
 

@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import { Test, TestingModule } from '@nestjs/testing';
 import { SearchService } from './search.service';
 import { PrismaService } from '../../prisma/prisma.service';
 
 describe('SearchService', () => {
   let service: SearchService;
-  let prismaService: PrismaService;
 
   const mockPrismaService = {
     book: {
@@ -27,7 +28,6 @@ describe('SearchService', () => {
     }).compile();
 
     service = module.get<SearchService>(SearchService);
-    prismaService = module.get<PrismaService>(PrismaService);
   });
 
   afterEach(() => {
@@ -201,7 +201,7 @@ describe('SearchService', () => {
               { title: { contains: 'great' } },
               { author: { contains: 'great' } },
               { description: { contains: 'great' } },
-            ]),
+            ]) as any,
           },
         }),
       );

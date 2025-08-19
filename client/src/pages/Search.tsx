@@ -81,8 +81,18 @@ const Search: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Typography variant="h3" component="h1" gutterBottom align="center" sx={{ mb: 4 }}>
+    <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 }, px: { xs: 2, md: 3 } }}>
+      <Typography 
+        variant="h3" 
+        component="h1" 
+        gutterBottom 
+        align="center" 
+        sx={{ 
+          mb: { xs: 3, md: 4 },
+          fontSize: { xs: '2rem', md: '3rem' },
+          fontWeight: 'bold'
+        }}
+      >
         Search Books & Reviews
       </Typography>
 
@@ -92,7 +102,17 @@ const Search: React.FC = () => {
         placeholder="Search books, authors, reviews, or reviewers..."
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        sx={{ mb: 4 }}
+        sx={{ 
+          mb: { xs: 3, md: 4 },
+          '& .MuiOutlinedInput-root': {
+            '&:hover fieldset': {
+              borderColor: 'primary.main',
+            },
+            '&.Mui-focused fieldset': {
+              borderWidth: 2,
+            },
+          },
+        }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -101,7 +121,14 @@ const Search: React.FC = () => {
           ),
           endAdornment: inputValue && (
             <InputAdornment position="end">
-              <IconButton onClick={handleClear}>
+              <IconButton 
+                onClick={handleClear}
+                sx={{
+                  '&:hover': {
+                    backgroundColor: 'action.hover',
+                  },
+                }}
+              >
                 <ClearIcon />
               </IconButton>
             </InputAdornment>
@@ -151,13 +178,22 @@ const Search: React.FC = () => {
 
           <TabPanel value={activeTab} index={0}>
             {searchResults.books.length > 0 ? (
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+              <Box sx={{ 
+                display: 'grid',
+                gridTemplateColumns: { 
+                  xs: '1fr', 
+                  sm: 'repeat(2, 1fr)', 
+                  md: 'repeat(3, 1fr)' 
+                },
+                gap: { xs: 2, md: 3 },
+                mt: 2
+              }}>
                 {searchResults.books.map((book) => (
                   <BookCard key={book.id} book={book} onBookClick={handleBookClick} />
                 ))}
               </Box>
             ) : (
-              <Typography variant="body1" color="text.secondary" align="center" sx={{ py: 4 }}>
+              <Typography variant="body1" color="text.secondary" align="center" sx={{ py: { xs: 3, md: 4 } }}>
                 No books found for this search.
               </Typography>
             )}
@@ -165,13 +201,13 @@ const Search: React.FC = () => {
 
           <TabPanel value={activeTab} index={1}>
             {searchResults.reviews.length > 0 ? (
-              <Box>
+              <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: { xs: 2, md: 3 } }}>
                 {searchResults.reviews.map((review) => (
                   <SearchReviewCard key={review.id} review={review} />
                 ))}
               </Box>
             ) : (
-              <Typography variant="body1" color="text.secondary" align="center" sx={{ py: 4 }}>
+              <Typography variant="body1" color="text.secondary" align="center" sx={{ py: { xs: 3, md: 4 } }}>
                 No reviews found for this search.
               </Typography>
             )}

@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { SearchResultDto, BookSearchResult, ReviewSearchResult } from '../dto/search.dto';
+import {
+  SearchResultDto,
+  BookSearchResult,
+  ReviewSearchResult,
+} from '../dto/search.dto';
 
 @Injectable()
 export class SearchService {
@@ -8,18 +12,18 @@ export class SearchService {
 
   async search(query: string): Promise<SearchResultDto> {
     const searchTerm = query.toLowerCase().trim();
-    
+
     // Search books by title, author, and description
     const books = await this.searchBooks(searchTerm);
-    
+
     // Search reviews by text and reviewer name
     const reviews = await this.searchReviews(searchTerm);
-    
+
     return {
       query,
       books,
       reviews,
-      totalResults: books.length + reviews.length
+      totalResults: books.length + reviews.length,
     };
   }
 
@@ -29,26 +33,26 @@ export class SearchService {
         OR: [
           {
             title: {
-              contains: searchTerm
-            }
+              contains: searchTerm,
+            },
           },
           {
             author: {
-              contains: searchTerm
-            }
+              contains: searchTerm,
+            },
           },
           {
             description: {
-              contains: searchTerm
-            }
-          }
-        ]
-      }
+              contains: searchTerm,
+            },
+          },
+        ],
+      },
     });
 
-    return books.map(book => {
+    return books.map((book) => {
       let matchType: 'title' | 'author' | 'description' = 'title';
-      
+
       if (book.title.toLowerCase().includes(searchTerm)) {
         matchType = 'title';
       } else if (book.author.toLowerCase().includes(searchTerm)) {
@@ -63,41 +67,43 @@ export class SearchService {
         author: book.author,
         description: book.description,
         coverImageUrl: book.coverImageUrl,
-        matchType
+        matchType,
       };
     });
   }
 
-  private async searchReviews(searchTerm: string): Promise<ReviewSearchResult[]> {
+  private async searchReviews(
+    searchTerm: string,
+  ): Promise<ReviewSearchResult[]> {
     const reviews = await this.prismaService.review.findMany({
       where: {
         OR: [
           {
             text: {
-              contains: searchTerm
-            }
+              contains: searchTerm,
+            },
           },
           {
             reviewerName: {
-              contains: searchTerm
-            }
-          }
-        ]
+              contains: searchTerm,
+            },
+          },
+        ],
       },
       include: {
         book: {
           select: {
             id: true,
             title: true,
-            author: true
-          }
-        }
-      }
+            author: true,
+          },
+        },
+      },
     });
 
-    return reviews.map(review => {
+    return reviews.map((review) => {
       let matchType: 'text' | 'reviewerName' = 'text';
-      
+
       if (review.text.toLowerCase().includes(searchTerm)) {
         matchType = 'text';
       } else if (review.reviewerName.toLowerCase().includes(searchTerm)) {
@@ -111,7 +117,7 @@ export class SearchService {
         text: review.text,
         rating: review.rating,
         book: review.book,
-        matchType
+        matchType,
       };
     });
   }

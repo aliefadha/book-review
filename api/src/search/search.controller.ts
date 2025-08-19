@@ -1,4 +1,11 @@
-import { Controller, Get, Query, ValidationPipe, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  ValidationPipe,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { SearchService } from '../common/services/search.service';
 import { SearchQueryDto, SearchResultDto } from '../common/dto/search.dto';
 
@@ -8,14 +15,14 @@ export class SearchController {
 
   @Get()
   async search(
-    @Query(new ValidationPipe({ transform: true, whitelist: true })) 
-    queryDto: SearchQueryDto
+    @Query(new ValidationPipe({ transform: true, whitelist: true }))
+    queryDto: SearchQueryDto,
   ): Promise<SearchResultDto> {
     try {
       if (!queryDto.query || queryDto.query.trim().length === 0) {
         throw new HttpException(
           'Search query cannot be empty',
-          HttpStatus.BAD_REQUEST
+          HttpStatus.BAD_REQUEST,
         );
       }
 
@@ -25,10 +32,10 @@ export class SearchController {
       if (error instanceof HttpException) {
         throw error;
       }
-      
+
       throw new HttpException(
         'An error occurred while searching',
-        HttpStatus.INTERNAL_SERVER_ERROR
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
