@@ -16,7 +16,7 @@ interface ReviewCardProps {
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" data-testid="review-card">
       <CardContent>
         <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, mb: 2 }}>
           <Avatar sx={{ bgcolor: 'primary.main' }}>
@@ -41,10 +41,10 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
         </Box>
 
         {review.summary && (
-          <Box sx={{ 
-            mb: 2, 
-            p: 2, 
-            bgcolor: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', 
+          <Box sx={{
+            mb: 2,
+            p: 2,
+            bgcolor: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
             borderRadius: 2,
             border: '1px solid',
             borderColor: 'primary.light',
@@ -54,20 +54,20 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
               <Typography variant="subtitle2" color="primary" sx={{ fontWeight: 'bold' }}>
                 ✨ AI-Enhanced Summary
               </Typography>
-              <Chip 
-                label="AI" 
-                size="small" 
-                sx={{ 
-                  bgcolor: 'primary.main', 
+              <Chip
+                label="AI"
+                size="small"
+                sx={{
+                  bgcolor: 'primary.main',
                   color: 'white',
                   fontSize: '0.7rem',
                   height: '20px'
                 }}
               />
             </Box>
-            <Typography 
-              variant="body2" 
-              sx={{ 
+            <Typography
+              variant="body2"
+              sx={{
                 fontStyle: 'italic',
                 color: 'text.primary',
                 lineHeight: 1.5

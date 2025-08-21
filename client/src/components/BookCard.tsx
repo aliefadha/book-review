@@ -32,30 +32,31 @@ const BookCard: React.FC<BookCardProps> = ({ book, onBookClick }) => {
           transform: 'translateY(-2px)',
         },
       }}
+      data-testid="search-book-card"
       onClick={() => onBookClick(book.id)}
     >
-        <CardMedia
-          component="img"
-          height="200"
-          image={book.coverImageUrl}
-          alt={book.title}
-          sx={{ objectFit: 'cover' }}
-        />
-        <CardContent sx={{ flexGrow: 1 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-            <Typography variant="h6" component="h2" sx={{ fontWeight: 'bold' }}>
-              {book.title}
-            </Typography>
-          </Box>
-          <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-            by {book.author}
+      <CardMedia
+        component="img"
+        height="200"
+        image={book.coverImageUrl}
+        alt={book.title}
+        sx={{ objectFit: 'cover' }}
+      />
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
+          <Typography variant="h6" component="h2" sx={{ fontWeight: 'bold' }}>
+            {book.title}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {book.description}
-          </Typography>
-        </CardContent>
-      </Card>
-    );
-  };
+        </Box>
+        <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+          by {book.author}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {book.description}
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+};
 
 export default BookCard;

@@ -92,6 +92,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
                                 onClick={handleClear}
                                 disabled={disabled}
                                 size="small"
+                                aria-label="Clear search"
                                 sx={{ color: 'text.secondary' }}
                             >
                                 <ClearIcon />

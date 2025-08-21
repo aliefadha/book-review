@@ -22,7 +22,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <SnackbarProvider 
+        <SnackbarProvider
           maxSnack={3}
           anchorOrigin={{
             vertical: 'bottom',
@@ -34,7 +34,7 @@ function App() {
             <AppBar position="static">
               <Toolbar>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  Book Review App
+                  Book Review Library
                 </Typography>
                 <Button color="inherit" component={Link} to="/">
                   Home

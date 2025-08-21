@@ -21,8 +21,13 @@ const SearchReviewCard: React.FC<SearchReviewCardProps> = ({ review }) => {
     navigate(`/book/${review.bookId}`);
   };
 
+  // Guard against missing book data
+  if (!review || !review.book) {
+    return null;
+  }
+
   return (
-    <Box sx={{ width: '100%', mb: 2 }}>
+    <Box sx={{ width: '100%', mb: 2 }} data-testid="search-review-card">
       <Card
         sx={{
           mb: 2,

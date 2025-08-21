@@ -241,6 +241,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                                     size="large"
                                     disabled={isSubmitting}
                                     emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                    data-testid="review-rating"
                                     sx={{
                                         '& .MuiRating-iconFilled': {
                                             color: '#ffc107',

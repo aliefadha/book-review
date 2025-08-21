@@ -82,12 +82,12 @@ const Search: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 }, px: { xs: 2, md: 3 } }}>
-      <Typography 
-        variant="h3" 
-        component="h1" 
-        gutterBottom 
-        align="center" 
-        sx={{ 
+      <Typography
+        variant="h3"
+        component="h1"
+        gutterBottom
+        align="center"
+        sx={{
           mb: { xs: 3, md: 4 },
           fontSize: { xs: '2rem', md: '3rem' },
           fontWeight: 'bold'
@@ -102,7 +102,7 @@ const Search: React.FC = () => {
         placeholder="Search books, authors, reviews, or reviewers..."
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        sx={{ 
+        sx={{
           mb: { xs: 3, md: 4 },
           '& .MuiOutlinedInput-root': {
             '&:hover fieldset': {
@@ -113,28 +113,35 @@ const Search: React.FC = () => {
             },
           },
         }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              {isLoading ? <CircularProgress size={20} /> : <SearchIcon />}
-            </InputAdornment>
-          ),
-          endAdornment: inputValue && (
-            <InputAdornment position="end">
-              <IconButton 
-                onClick={handleClear}
-                sx={{
-                  '&:hover': {
-                    backgroundColor: 'action.hover',
-                  },
-                }}
-              >
-                <ClearIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
+        inputProps={{
+          'aria-label': 'Search books, authors, reviews, or reviewers'
+        }}
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                {isLoading ? <CircularProgress size={20} /> : <SearchIcon />}
+              </InputAdornment>
+            ),
+            endAdornment: inputValue && (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={handleClear}
+                  aria-label="Clear search"
+                  sx={{
+                    '&:hover': {
+                      backgroundColor: 'action.hover',
+                    },
+                  }}
+                >
+                  <ClearIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          },
         }}
       />
+
 
       {isLoading && (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
@@ -178,12 +185,12 @@ const Search: React.FC = () => {
 
           <TabPanel value={activeTab} index={0}>
             {searchResults.books.length > 0 ? (
-              <Box sx={{ 
+              <Box sx={{
                 display: 'grid',
-                gridTemplateColumns: { 
-                  xs: '1fr', 
-                  sm: 'repeat(2, 1fr)', 
-                  md: 'repeat(3, 1fr)' 
+                gridTemplateColumns: {
+                  xs: '1fr',
+                  sm: 'repeat(2, 1fr)',
+                  md: 'repeat(3, 1fr)'
                 },
                 gap: { xs: 2, md: 3 },
                 mt: 2
