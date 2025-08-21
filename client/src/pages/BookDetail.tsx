@@ -14,15 +14,18 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { fetchBookById } from '../services/bookService';
 import type { Book } from '../types/book';
 import { useQuery } from '@tanstack/react-query';
 import ReviewCard from '../components/ReviewCard';
 import ReviewModal from '../components/ReviewModal';
+import { useFavorites } from '../hooks/useFavorites';
 
 const BookDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const { isFavorite, toggleFavorite, isLoading: favoritesLoading } = useFavorites();
 
   const { isPending, error, data: book, refetch } = useQuery<Book | null>({
     queryKey: ['bookData', id],
@@ -191,24 +194,35 @@ const BookDetail: React.FC = () => {
             Write a Review
           </Button>
           <Button
-            variant="outlined"
-            startIcon={<FavoriteIcon />}
+            variant={isFavorite(book.id) ? "contained" : "outlined"}
+            startIcon={isFavorite(book.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             size="large"
+            disabled={favoritesLoading}
+            onClick={() => toggleFavorite(book)}
             sx={{ 
               flex: 1,
               borderRadius: 2,
               textTransform: 'none',
               fontWeight: 600,
               py: 1.5,
+              transition: 'all 0.3s ease-in-out',
+              backgroundColor: isFavorite(book.id) ? 'error.main' : 'transparent',
+              borderColor: isFavorite(book.id) ? 'error.main' : 'primary.main',
+              color: isFavorite(book.id) ? 'white' : 'primary.main',
               '&:hover': {
                 transform: 'translateY(-2px)',
-                backgroundColor: 'primary.main',
+                backgroundColor: isFavorite(book.id) ? 'error.dark' : 'primary.main',
                 color: 'white',
-                borderColor: 'primary.main',
+                borderColor: isFavorite(book.id) ? 'error.dark' : 'primary.main',
+                boxShadow: 3,
+              },
+              '&:disabled': {
+                opacity: 0.6,
+                transform: 'none',
               },
             }}
           >
-            Add to Favorites
+            {isFavorite(book.id) ? 'Remove from Favorites' : 'Add to Favorites'}
           </Button>
         </Stack>
       </Paper>
